@@ -7,19 +7,25 @@ if (!process.env.BOT_TOKEN) {
 }
 const token = process.env.BOT_TOKEN;
 
-async function connect() {
-  await client.login(token);
-  
-  const roles =  client.guilds.first().roles;
-  roles.map((value,key) => {
+async function getInfo(client) {
+  const roles = client.guilds.first().roles;
+  roles.map((value, key) => {
     console.log('Key:', key, ' Role:', value.name);
   });
-
   const channels = client.guilds.first().channels;
-
   channels.map((value, key) => {
     console.log('Channel-' + key + ' type:', value.type, 'name:', value.name);
-  })
-
+  });
 }
-connect();
+
+async function connect(client, token) {
+  await client.login(token);
+  await getInfo();
+}
+
+async function execute(client, token) {
+  await connect(client, token);
+  await getInfo(client);
+}
+
+execute(client, token);

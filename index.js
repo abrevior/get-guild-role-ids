@@ -7,20 +7,25 @@ if (!process.env.BOT_TOKEN) {
 }
 const token = process.env.BOT_TOKEN;
 
-async function getInfo(client) {
-  const roles = client.guilds.first().roles;
+async function getInfoByGuild(guild) {
+  console.log('GUILD :', guild.name);
+  const roles = guild.roles;
   roles.map((value, key) => {
+    
     console.log('Key:', key, ' Role:', value.name);
   });
-  const channels = client.guilds.first().channels;
+  const channels = guild.channels;
   channels.map((value, key) => {
-    console.log('Channel-' + key + ' type:', value.type, 'name:', value.name);
+    console.log('Channel-' + key + ' type:', value.type, 'name:', value.name,);
   });
+}
+
+async function getInfo(client) {
+  client.guilds.map(getInfoByGuild);
 }
 
 async function connect(client, token) {
   await client.login(token);
-  await getInfo();
 }
 
 async function execute(client, token) {
